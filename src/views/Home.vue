@@ -14,20 +14,36 @@
 
     <!-- Content -->
     <ion-content>
-      <ion-list v-if="cryptoData.length > 0">
-        <ion-item v-for="crypto in cryptoData" :key="crypto.id">
-          <ion-avatar slot="start" color="secondary">
-            <ion-label>{{ crypto.rank }}</ion-label>
-          </ion-avatar>
-          <ion-label>
-            <h2>{{ crypto.name }} ({{ crypto.symbol }})</h2>
-            <p>Price: ${{ parseFloat(crypto.price_usd).toFixed(2) }}</p>
-          </ion-label>
-        </ion-item>
-      </ion-list>
+      <!-- Refresh Button -->
+      <div class="refresh-container">
+        <ion-button expand="block" @click="fetchCryptoData" color="tertiary">
+          Refresh
+        </ion-button>
+      </div>
+
+      <!-- Crypto List -->
+      <div class="crypto-container">
+        <div v-for="crypto in cryptoData" :key="crypto.id" class="crypto-item">
+          <!-- Row 1 -->
+          <div class="crypto-header">
+            <span class="rank-label">Rank</span>
+            <span class="symbol">{{ crypto.symbol }}</span>
+            <span class="usd-label">USD</span>
+          </div>
+
+          <!-- Row 2 -->
+          <div class="crypto-details">
+            <span class="rank-value">{{ crypto.rank }}</span>
+            <span class="name">{{ crypto.name }}</span>
+            <span class="price">{{ parseFloat(crypto.price_usd).toFixed(2) }}</span>
+          </div>
+        </div>
+      </div>
 
       <!-- Loading Indicator -->
-      <ion-spinner v-else></ion-spinner>
+      <div v-if="cryptoData.length === 0" class="loading-container">
+        <ion-spinner name="crescent"></ion-spinner>
+      </div>
     </ion-content>
   </ion-page>
 </template>
@@ -41,12 +57,8 @@ import {
   IonToolbar,
   IonTitle,
   IonContent,
-  IonList,
-  IonItem,
-  IonLabel,
-  IonAvatar,
-  IonButtons,
   IonButton,
+  IonButtons,
   IonIcon,
   IonSpinner,
 } from '@ionic/vue';
@@ -70,3 +82,67 @@ onMounted(() => {
   fetchCryptoData();
 });
 </script>
+
+<style scoped>
+/* Layout Styling */
+.refresh-container {
+  display: flex;
+  justify-content: center;
+  margin: 10px 0;
+}
+
+.crypto-container {
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+}
+
+.crypto-item {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  background-color: #fdf5d4;
+  border: 1px solid #e3d9a7;
+  font-family: Arial, sans-serif;
+}
+
+.crypto-header,
+.crypto-details {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+}
+
+.crypto-header {
+  font-size: 0.9em;
+  color: #555;
+}
+
+.crypto-details {
+  font-size: 1.1em;
+  margin-top: 5px;
+  color: #000;
+}
+
+.rank-label,
+.usd-label {
+  flex: 1;
+  text-align: left;
+}
+
+.symbol {
+  flex: 1;
+  text-align: left;
+}
+
+.rank-value,
+.price {
+  flex: 1;
+  text-align: left;
+}
+
+.name {
+  flex: 1;
+  text-align: left;
+}
+</style>
