@@ -27,14 +27,14 @@
           <!-- Row 1 -->
           <div class="crypto-header">
             <span class="rank-label">Rank</span>
-            <span class="symbol">{{ crypto.symbol }}</span>
+            <span class="symbol">{{ crypto.name }}</span>
             <span class="usd-label">USD</span>
           </div>
 
           <!-- Row 2 -->
           <div class="crypto-details">
             <span class="rank-value">{{ crypto.rank }}</span>
-            <span class="name">{{ crypto.name }}</span>
+            <span class="name">{{ crypto.symbol }}</span>
             <span class="price">{{ parseFloat(crypto.price_usd).toFixed(2) }}</span>
           </div>
         </div>
